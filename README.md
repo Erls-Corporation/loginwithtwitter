@@ -15,7 +15,7 @@ Using this example, ASP.Net MVC developer can get source code of
 Follow below Steps to make this application run:
 1) Download this source code.
 2) Please add reference three dll files[TweetSharp.dll,Hammock.ClientProfile.dll,Newtonsoft.Json.dll ] in your project
-3) Create application from your twitter developer account [Note: only live url is valid for this application, so please set live DomainName & callback url(http://YOUR_DOMAIN_NAME/home/returnfromtwitter)] and put Consumer key and Consumer Secret key in web.config file.
+3) Create application from your twitter developer account [Note: only live url is valid for this application, so please set live DomainName & callback url(http://YOUR_DOMAIN_NAME/home/returnfromtwitter) & Set applicatins Access as "Read, Write & Access direct messages" from Settings tab] and put Consumer key and Consumer Secret key in web.config file.
 4) Please add this code in web.config file in <assemblyBinding> tag:
 	 <dependentAssembly>
 	        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
