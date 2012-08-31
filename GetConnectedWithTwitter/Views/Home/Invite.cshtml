@@ -1,0 +1,126 @@
+﻿@model List<GetConnectedWithTwitter.Models.TwitterFollower>
+@{
+    ViewBag.Title = "Twitter API - Emipro Technologies, India";
+}
+<div class="span9">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#frmTweet").validate({
+                rules:
+                {
+                    twittertweet:
+                    {
+                        required: true
+                    }
+                },
+                messages:
+                {
+                    twittertweet:
+                    {
+                        required: "Required"
+                    }
+                }
+            });
+
+            $("#frmDirectMessage").validate({
+                rules:
+                {
+                    txtTwitterDM:
+                    {
+                        required: true
+                    }
+                },
+                    messages:
+                {
+                    txtTwitterDM:
+                    {
+                        required: "Required"
+                    }
+                }
+            });
+
+            $("#btnSendDM").click(function () {
+                var SelectedUserForDM = "";
+                $.each($(".chkTwitterUserForDM"), function (index, value) {
+                    if ($(value).attr("checked") == "checked") {
+                        SelectedUserForDM += $(value).attr("id").toString().replace("checkbox-", "") + ",";
+                    }
+                });
+                if (SelectedUserForDM != "") {
+                    SelectedUserForDM = SelectedUserForDM.substr(0, SelectedUserForDM.length - 1);
+                    var txtTwitterDM = $("#txtTwitterDM").val();
+                    if ($("#frmDirectMessage").valid()) {
+                        $.post('/Home/TwitterSendDirectMessage', { TwitterDM: txtTwitterDM, SelectedUserForDM: SelectedUserForDM }, function (result) {
+                            if (result == true) {
+                                alert("Yuhuuu....Your direct message sent to selected users successsfully!!!");
+                                $('#frmDirectMessage').each(function () {
+                                    this.reset();
+                                });
+                            }
+                        });
+                    }
+                }
+                else {
+                    alert("Please select minimum one recipient from list.");
+                }
+            });
+
+            $("#btnTweet").click(function () {
+                if ($("#frmTweet").valid()) {
+                    var tweet = $("#twittertweet").val();
+                    $.post('/Home/TwitterTweet', { tweet: tweet }, function (result) {
+                        if (result == true) {
+                            alert("Yuhuuuu....Your have twitted message on your twitter account successsfully!!!");
+                            $('#frmTweet').each(function () {
+                                this.reset();
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+
+        
+    </script>
+    <h2>
+        You are connected with your twitter account..</h2>
+    <div>
+        @{
+            
+            <div>
+                <form id="frmTweet" name="frmTweet" action="" method="post">
+                <div>
+                    <textarea id="twittertweet" name="twittertweet" placeholder="Compose New Tweet..."
+                        style="width: 400px; height: 100px;"></textarea><br />
+                    <input type="button" id="btnTweet" name="btnTweet" value="Tweet on your twitter account"
+                        class="btn" style="vertical-align: bottom; margin-bottom: 9px;" />
+                </div>
+                </form>
+            </div>
+        <hr />
+            <form id="frmDirectMessage" name="frmDirectMessage" action="/Home/TwitterSendDirectMessage"
+            method="post">
+            @foreach (var followers in Model)
+            {
+                string checkboxfollowers = "checkbox-" + followers.Id;
+                <div>
+                    <input type="checkbox" id="@checkboxfollowers" name="@checkboxfollowers" class="chkTwitterUserForDM" /><span
+                        style="font-weight: bold;">@followers.ScreenName</span>
+                    <div class="clear">
+                    </div>
+                </div>
+            }
+            <div>
+                <textarea id="txtTwitterDM" name="txtTwitterDM" placeholder="Type your Direct Message..."
+                    style="width: 400px; height: 100px;"></textarea><br />
+                <input type="button" id="btnSendDM" name="btnSendDM" value="Send Direct Message to selected twitter user"
+                    class="btn" style="vertical-align: bottom; margin-bottom: 9px;" />
+            </div>
+            </form>
+            
+        }
+
+      <h3>Find this app's source code from <a href="http://loginwithtwitter.codeplex.com/">here</a></h3>
+    </div>
+</div>
