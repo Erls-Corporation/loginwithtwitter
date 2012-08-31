@@ -1,4 +1,4 @@
-loginwithtwitter
+Twitter Connect API - ASP.Net MVC3 C#
 ================
 
 This is Twitter API example in ASP.Net MVC3 C#
